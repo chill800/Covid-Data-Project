@@ -1,47 +1,35 @@
---Select the data we will be using
+--Queries used for the Tableau Project: Covid-19 Dashboard
 
-Select location, date, total_cases, new_cases, total_deaths, population
-from PortfolioProject..['owid-covid-data$']
-order by 1, 2
+--1: Show the total number of cases, deaths and the death percentage
 
---Looking at total cases vs total deaths in United States
---Shows the liklihood of death if contracting Covid in the United States
-
-Select location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as [Rate of Deaths]
-from PortfolioProject..['owid-covid-data$']
-where location like '%states%'
-order by 1, 2
-
---Looking at total cases vs population
---Shows the percentage of population contracting covid
-
-Select location, date, total_cases, population, (total_cases/population)*100 as [Rate of Infection]
-from PortfolioProject..['owid-covid-data$']
-where location like '%states%'
-order by 1, 2
-
---Which country had the highest infection rate?
-
-Select location, population, MAX(total_cases) as [Highest Infection], MAX((total_cases/population))*100 as [Infection Rate]
-from PortfolioProject..['owid-covid-data$']
-where continent is not null
-group by location, population
-order by 1 desc
-
---Showing continent with the highest death count per population
-
-Select continent, MAX(cast(total_deaths as int)) as [Most Deaths]
-from PortfolioProject..['owid-covid-data$']
+Select SUM(new_cases) as [Total Cases], SUM(cast(new_deaths as int)) as [Total Deaths], SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as [Death Percentage]
+From PortfolioProject..['owid-covid-data$']
 Where continent is not null
-group by continent
-order by 2 desc
+Order by 1, 2
 
---Showing the countries with the highest death count
-Select location, MAX(cast(total_deaths as int)) as [Most Deaths]
-from PortfolioProject..['owid-covid-data$']
-Where continent is not null
-group by location
-order by 2 desc
+--2: Shows the total count of deaths by continent
+
+Select continent, SUM(cast(new_deaths as int)) as [Total Deaths]
+From PortfolioProject..['owid-covid-data$']
+Where continent is not null AND location not in ('World','European Union', 'International')
+Group by continent
+Order by [Total Deaths] desc
+
+--3: What country has the highest infection rate?
+
+Select location, population, MAX(total_cases) as [Number Infected], MAX((total_cases/population))*100 as [Percentage of Pop. Infected]
+From PortfolioProject..['owid-covid-data$']
+Group by location, population
+Order by [Infected Percentage] desc
+
+--4
+
+Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
+From PortfolioProject..['owid-covid-data$']
+Group by Location, Population, date
+order by PercentPopulationInfected desc
+
+
 
 
 --Creating a view for to store countries with the highest death count
