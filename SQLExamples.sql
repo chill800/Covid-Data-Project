@@ -20,7 +20,7 @@ Order by [Total Deaths] desc
 Select location, population, MAX(total_cases) as [Number Infected], MAX((total_cases/population))*100 as [Percentage of Pop. Infected]
 From PortfolioProject..['owid-covid-data$']
 Group by location, population
-Order by [Infected Percentage] desc
+Order by [Percentage of Pop. Infected] desc
 
 --4
 
