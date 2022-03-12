@@ -4,8 +4,8 @@ Select location, date, total_cases, new_cases, total_deaths, population
 from PortfolioProject..['owid-covid-data$']
 order by 1, 2
 
---Looking at total cases vs totat deaths in United States
---Shows the likihood of death if contracting Covid in the United States
+--Looking at total cases vs total deaths in United States
+--Shows the liklihood of death if contracting Covid in the United States
 
 Select location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 as [Rate of Deaths]
 from PortfolioProject..['owid-covid-data$']
