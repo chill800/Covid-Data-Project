@@ -1,6 +1,6 @@
 --Queries used for the Tableau Project: Covid-19 Dashboard
 
---1: Show the total number of cases, deaths and the death percentage
+--1: Show the total number of new cases, deaths and the death percentage
 
 Select SUM(new_cases) as [Total Cases], SUM(cast(new_deaths as int)) as [Total Deaths], SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as [Death Percentage]
 From PortfolioProject..['owid-covid-data$']
